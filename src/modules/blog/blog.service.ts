@@ -1,27 +1,45 @@
 import { Injectable } from '@nestjs/common';
-import { Blog } from './interfaces/blog.interface';
 import { CreateBlogDto } from './dto/create-blog.dto';
-import { v4 as uuidv4 } from 'uuid';
+import { UpdateBlogDto } from './dto/update-blog.dto';
+import { Blog } from './interfaces/blog.interface';
+import { v4 as uuid } from 'uuid';
 
 @Injectable()
-export class BlogService {
-  private blogs: Blog[] = [];
+export class BlogsService {
+  //  Создаем массив, где будут лежать наши блоги
+  private blogs: Blog[] = []; 
 
-  create(createBlogDto: CreateBlogDto): Blog {
+  create(createBlogDto: CreateBlogDto) {
+    // Создаем объект нового блога
     const newBlog: Blog = {
-      id: uuidv4(),
+      id: uuid(), 
       title: createBlogDto.title,
       description: createBlogDto.description,
       createdAt: new Date(),
-    };
-
+    }
     this.blogs.push(newBlog);
-
     return newBlog;
   }
 
-  findAll(): Blog[] {
-  return this.blogs;
-}
+  findAll() {
+    return this.blogs;
+  }
 
+  findOne(id: string) {
+    // return this.blogs.find(blog => { blog.id === id });
+    return this.blogs.find(blog => {
+      const a = 1
+      return blog.id === id;
+})
+
+  
+  }
+
+  update(id: number, updateBlogDto: UpdateBlogDto) {
+    return `This action updates a #${id} blog`;
+  }
+
+  remove(id: number) {
+    return `This action removes a #${id} blog`;
+  }
 }
