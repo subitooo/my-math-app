@@ -23,15 +23,15 @@ export class BlogsController {
   findOne(@Param('id') id: string) {
     return this.blogsService.findOne(id);
   }
-  
+
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateBlogDto: UpdateBlogDto) {
-    return this.blogsService.update(+id, updateBlogDto);
+    return this.blogsService.update(id, updateBlogDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.blogsService.remove(+id);
+    return this.blogsService.remove(id);
   }
 }

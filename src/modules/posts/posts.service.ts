@@ -2,30 +2,50 @@ import { Injectable } from '@nestjs/common';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { Post } from './interface/post.interface';
+import { v4 as uuid } from 'uuid';
 
 
 @Injectable()
 export class PostsService {
   //  Создаем массив, где будут лежать наши посты
-    private posts: Post[] = []; 
+    private posts: Post[] = [];  // временное хранилище постов
 
   create(createPostDto: CreatePostDto) {
-    return 'This action adds a new post';
+    const newPost: Post = {
+      id: uuid(),
+      title: createPostDto.title,
+      content: createPostDto.content,
+      blogId: createPostDto.blogId,
+      createdAt: new Date(),
+    }
+    this.posts.push(newPost);
+    return newPost;
   }
 
   findAll() {
-    return `This action returns all posts`;
+    return this.posts;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} post`;
+
+  findOne(id: string) {
+    return this.posts.find(posts => posts.id === id);
+  }
+  
+
+  findByBlogId(blogId: string) {
+    return this.posts.filter(post => post.blogId === blogId);
   }
 
-  update(id: number, updatePostDto: UpdatePostDto) {
-    return `This action updates a #${id} post`;
+
+  update(id: string, updatePostDto: UpdatePostDto) {
+    const post = this.posts.find(post => post.id === id);
+    if (!post) return '404';
+    Object.assign(post, updatePostDto);
+    return post;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} post`;
+  remove(id: string) {
+    this.posts = this.posts.filter(posts => posts.id !== id);
+    return
   }
 }
