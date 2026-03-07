@@ -1,17 +1,12 @@
 import { IsString, IsUUID, Length, Validate } from "class-validator";
 import { NoLeadingTrailingSpaces } from "src/ValidationDecorators/trim-string.validator";
 
-
-export class CreatePostDto {
+export class CreateCommentDto {
+    @Length(1, 50)
     @IsString()
-    @Length(3, 30)
     @Validate(NoLeadingTrailingSpaces)
-    "title": string;
-
-    @IsString()
-    @Length(1, 500)
-    "content": string;
+    content: string;
 
     @IsUUID()
-    "blogId": string;
+    postId: string;
 }

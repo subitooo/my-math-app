@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, NotFoundException } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
@@ -25,7 +25,7 @@ export class PostsController {
   @Get()
   findPostsByBlogId(@Query('blogId') blogId: string) {
     if (!blogId) {
-      return this.postsService.findAll();
+       throw new NotFoundException("Не найдено блога");
     }
     return this.postsService.findByBlogId(blogId);
   }

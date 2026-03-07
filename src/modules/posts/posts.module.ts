@@ -1,8 +1,18 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+
 import { PostsService } from './posts.service';
 import { PostsController } from './posts.controller';
 
+import { PostEntity } from './entities/post.entity';
+import { BlogEntity } from '../blog/entities/blog.entity';
+
+
 @Module({
+  imports: [
+    TypeOrmModule.forFeature([PostEntity, BlogEntity]),
+  ],
+  exports: [PostsService],
   controllers: [PostsController],
   providers: [PostsService],
 })
