@@ -58,8 +58,14 @@ export class CommentsService {
     }
 
 
-    remove(id: string) {
-        this.commentRepo.delete(id);
+    async remove(id: string) {
+        const commentEntity = await this.commentRepo.findOneBy({ id });
+
+        if (!commentEntity) {
+            throw new NotFoundException('Не найдено комментария');
+        }
+        
+        await this.commentRepo.delete(id);
         return
     }
  }
