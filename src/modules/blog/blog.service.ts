@@ -5,26 +5,26 @@ import { Blog } from './interfaces/blog.interface';
 import { v4 as uuid } from 'uuid';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BlogEntity } from './entities/blog.entity';
-import { LessThanOrEqual, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class BlogsService {
-  constructor( 
+  constructor(
     @InjectRepository(BlogEntity)
-    private blogRepo: Repository<BlogEntity>
+    private blogRepo: Repository<BlogEntity>,
   ) {}
   //  Создаем массив, где будут лежать наши блоги
-    blogs: Blog[] = []; 
+  blogs: Blog[] = [];
 
   async create(createBlogDto: CreateBlogDto) {
     // Создаем объект нового блога
-     const blogEntity = this.blogRepo.create({
-      id: uuid(), 
+    const blogEntity = this.blogRepo.create({
+      id: uuid(),
       title: createBlogDto.title,
       description: createBlogDto.description,
       createdAt: new Date(),
     });
-     await this.blogRepo.save(blogEntity);
+    await this.blogRepo.save(blogEntity);
 
     // const blogEntity = new BlogEntity();
     // blogEntity.id = uuid();
@@ -42,7 +42,7 @@ export class BlogsService {
   }
 
   async findOne(id: string) {
-     return await this.blogRepo.findOneBy({id});
+    return await this.blogRepo.findOneBy({ id });
   }
 
   // findByBlogId(blogId: string) {
@@ -52,7 +52,7 @@ export class BlogsService {
   async update(id: string, updateBlogDto: UpdateBlogDto) {
     const blog = await this.blogRepo.findOneBy({ id });
     if (!blog) {
-      throw new NotFoundException("Блог не найден");
+      throw new NotFoundException('Блог не найден');
     }
     //  Обновляем поля
     Object.assign(blog, updateBlogDto);
@@ -61,11 +61,11 @@ export class BlogsService {
   }
 
   async remove(id: string) {
-    const blog = await this.blogRepo.findOneBy({id});
+    const blog = await this.blogRepo.findOneBy({ id });
     if (!blog) {
-      throw new NotFoundException("Блог не найден");
+      throw new NotFoundException('Блог не найден');
     }
-     await this.blogRepo.delete(id);
-     return
+    await this.blogRepo.delete(id);
+    return;
   }
 }
