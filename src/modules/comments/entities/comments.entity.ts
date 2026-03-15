@@ -1,18 +1,17 @@
-import { PostEntity } from "src/modules/posts/entities/post.entity";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-
+import { PostEntity } from 'src/modules/posts/entities/post.entity';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class CommentEntity  {
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+export class CommentEntity {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-    @Column()
-    content: string;
+  @Column()
+  content: string;
 
-    @ManyToOne(() => PostEntity)
-    post: PostEntity;
+  @ManyToOne(() => PostEntity)
+  post: PostEntity;
 
-    @Column({type: 'timestamp without time zone'})
-    createdAt: Date;
+  @Column({ type: 'timestamp without time zone' })
+  createdAt: Date;
 }
