@@ -1,5 +1,4 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-// import { Blog } from "../interfaces/blog.interface";
 
 @Entity()
 export class BlogEntity {

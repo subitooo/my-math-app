@@ -17,9 +17,6 @@ export class PostsService {
     private blogRepo: Repository<BlogEntity>,
   ) {}
 
-  //  Создаем массив, где будут лежать наши посты
-  // public posts: Post[] = [];  // временное хранилище постов
-
   async create(createPostDto: CreatePostDto) {
     const blogEntity = await this.blogRepo.findOneBy({
       id: createPostDto.blogId,
@@ -38,19 +35,6 @@ export class PostsService {
     await this.postRepo.save(postEntity);
     return postEntity;
   }
-
-  // if (!this.postRepo.find(blog => blog.id === createPostDto.blogId))
-  //   throw new NotFoundException("Блога не существует");
-
-  // const newPost: Post = {
-  //   id: uuid(),
-  //   title: createPostDto.title,
-  //   content: createPostDto.content,
-  //   blogId: createPostDto.blogId,
-  //   createdAt: new Date(),
-  // }
-  // this.posts.push(newPost);
-  // return newPost;
 
   async findAll() {
     return await this.postRepo.find();

@@ -33,17 +33,6 @@ export class CommentsService {
 
     await this.commentRepo.save(commentEntity);
     return commentEntity;
-
-    // if (!this.postService.posts.find(post => post.id === dto.postId))
-    //     throw new NotFoundException("Не найден пост");
-    // const newComment: Comment = {
-    //     id: uuid(),
-    //     content: dto.content,
-    //     createdAt: new Date(),
-    //     postId: dto.postId
-    // }
-    // this.comments.push(newComment);
-    // return newComment;
   }
 
   findByPostId(postId: string) {

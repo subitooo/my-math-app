@@ -5,12 +5,12 @@ export class CreatePostDto {
   @IsString()
   @Length(3, 30)
   @Validate(NoLeadingTrailingSpaces)
-  'title': string;
+  title: string;
 
   @IsString()
   @Length(1, 500)
-  'content': string;
+  content: string;
 
   @IsUUID()
-  'blogId': string;
+  blogId: string;
 }

@@ -1,7 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateBlogDto } from './dto/create-blog.dto';
 import { UpdateBlogDto } from './dto/update-blog.dto';
-import { Blog } from './interfaces/blog.interface';
 import { v4 as uuid } from 'uuid';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BlogEntity } from './entities/blog.entity';
@@ -13,8 +12,6 @@ export class BlogsService {
     @InjectRepository(BlogEntity)
     private blogRepo: Repository<BlogEntity>,
   ) {}
-  //  Создаем массив, где будут лежать наши блоги
-  blogs: Blog[] = [];
 
   async create(createBlogDto: CreateBlogDto) {
     // Создаем объект нового блога
@@ -25,15 +22,6 @@ export class BlogsService {
       createdAt: new Date(),
     });
     await this.blogRepo.save(blogEntity);
-
-    // const blogEntity = new BlogEntity();
-    // blogEntity.id = uuid();
-    // blogEntity.title = createBlogDto.title;
-    // blogEntity.description = createBlogDto.description;
-    // blogEntity.createdAt = new Date();
-
-    // await this.blogRepo.save(blogEntity);
-
     return blogEntity;
   }
 
@@ -44,10 +32,6 @@ export class BlogsService {
   async findOne(id: string) {
     return await this.blogRepo.findOneBy({ id });
   }
-
-  // findByBlogId(blogId: string) {
-  //   return this.blogs.filter(blog => blog.id === blogId);
-  // }
 
   async update(id: string, updateBlogDto: UpdateBlogDto) {
     const blog = await this.blogRepo.findOneBy({ id });
