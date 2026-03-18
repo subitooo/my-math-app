@@ -8,8 +8,8 @@ import { PostEntity } from './modules/posts/entities/post.entity';
 
 @Module({
   imports: [
-    BlogModule, 
-    PostsModule, 
+    BlogModule,
+    PostsModule,
     CommentsModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
@@ -20,7 +20,7 @@ import { PostEntity } from './modules/posts/entities/post.entity';
       database: 'blog',
       entities: [BlogEntity, PostEntity],
       synchronize: true,
-    })
-  ]
+    }),
+  ],
 })
 export class AppModule {}
