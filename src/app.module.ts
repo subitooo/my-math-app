@@ -5,11 +5,14 @@ import { CommentsModule } from './modules/comments/comments.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { BlogEntity } from './modules/blog/entities/blog.entity';
 import { PostEntity } from './modules/posts/entities/post.entity';
+import { AuthModule } from './auth/auth.module';
+import { UserEntity } from './modules/users/entities/user.entity';
 
 @Module({
   imports: [
-    BlogModule, 
-    PostsModule, 
+    AuthModule,
+    BlogModule,
+    PostsModule,
     CommentsModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
@@ -18,9 +21,9 @@ import { PostEntity } from './modules/posts/entities/post.entity';
       username: 'postgres',
       password: '1234',
       database: 'blog',
-      entities: [BlogEntity, PostEntity],
+      entities: [BlogEntity, PostEntity, UserEntity],
       synchronize: true,
-    })
-  ]
+    }),
+  ],
 })
 export class AppModule {}

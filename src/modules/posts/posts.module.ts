@@ -7,11 +7,8 @@ import { PostsController } from './posts.controller';
 import { PostEntity } from './entities/post.entity';
 import { BlogEntity } from '../blog/entities/blog.entity';
 
-
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([PostEntity, BlogEntity]),
-  ],
+  imports: [TypeOrmModule.forFeature([PostEntity, BlogEntity])],
   exports: [PostsService],
   controllers: [PostsController],
   providers: [PostsService],

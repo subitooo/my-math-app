@@ -1,15 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
-import { Post } from './interface/post.interface';
 import { v4 as uuid } from 'uuid';
-import { BlogsService } from '../blog/blog.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PostEntity } from './entities/post.entity';
 import { Repository } from 'typeorm';
 import { BlogEntity } from '../blog/entities/blog.entity';
-import { NotEquals } from 'class-validator';
-
 
 @Injectable()
 export class PostsService {
@@ -21,57 +17,40 @@ export class PostsService {
     private blogRepo: Repository<BlogEntity>,
   ) {}
 
-  //  Создаем массив, где будут лежать наши посты
-    // public posts: Post[] = [];  // временное хранилище постов
+  async create(createPostDto: CreatePostDto) {
+    const blogEntity = await this.blogRepo.findOneBy({
+      id: createPostDto.blogId,
+    });
+    if (!blogEntity) {
+      throw new NotFoundException('Не найдено блога');
+    }
 
-    async create(createPostDto: CreatePostDto) {
-      const blogEntity = await this.blogRepo.findOneBy({ id: createPostDto.blogId })
-      if (!blogEntity) {
-        throw new NotFoundException("Не найдено блога");
-      }
-      
-      const postEntity = this.postRepo.create({
-      id: uuid(), 
+    const postEntity = this.postRepo.create({
+      id: uuid(),
       title: createPostDto.title,
       content: createPostDto.content,
       blog: blogEntity,
       createdAt: new Date(),
-    })
+    });
     await this.postRepo.save(postEntity);
     return postEntity;
   }
-    
-    // if (!this.postRepo.find(blog => blog.id === createPostDto.blogId))
-    //   throw new NotFoundException("Блога не существует");
-
-    // const newPost: Post = {
-    //   id: uuid(),
-    //   title: createPostDto.title,
-    //   content: createPostDto.content,
-    //   blogId: createPostDto.blogId,
-    //   createdAt: new Date(),
-    // }
-    // this.posts.push(newPost);
-    // return newPost;
-  
 
   async findAll() {
     return await this.postRepo.find();
   }
 
-
   async findOne(id: string) {
-    const postEntity = await this.postRepo.findOneBy({id});
+    const postEntity = await this.postRepo.findOneBy({ id });
 
     if (!postEntity) {
       throw new NotFoundException('Не найдено поста');
     }
     return postEntity;
   }
-  
 
   async findByBlogId(blogId: string) {
-    const blogEntity = await this.blogRepo.findOneBy({id: blogId});
+    const blogEntity = await this.blogRepo.findOneBy({ id: blogId });
 
     if (!blogEntity) {
       throw new NotFoundException('Не найдено блога');
@@ -86,9 +65,7 @@ export class PostsService {
     });
   }
 
-
   async update(id: string, updatePostDto: UpdatePostDto) {
-
     const postEntity = await this.postRepo.findOneBy({ id });
 
     if (!postEntity) {
@@ -115,6 +92,6 @@ export class PostsService {
     }
 
     await this.postRepo.delete(id);
-    return
+    return;
   }
 }
